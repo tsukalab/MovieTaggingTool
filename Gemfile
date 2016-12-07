@@ -14,6 +14,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'capistrano-rails', group: :development
 gem 'config'
 
+gem 'slim-rails'
+
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
