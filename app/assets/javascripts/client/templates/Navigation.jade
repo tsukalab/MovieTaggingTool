@@ -1,0 +1,11 @@
+.header 
+  a.logo(href="#/manager")
+    img(src=props.headerSrc)
+  .menu
+    if state.account.uid != ""
+      MenuIcon(act="MOVE_TOP" src="images/fab_home.png")
+      MenuIcon(act="MOVE_MY_PROJECTS" src="images/fab_mypro.png")
+      MenuIcon(act="SIGN_OUT" src="images/fab_out.png")
+    else
+      MenuIcon(act="MOVE_TOP" src="images/fab_home.png")
+      MenuIcon(act="SIGN_IN" src="images/fab_in.png") 
