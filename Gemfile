@@ -20,6 +20,7 @@ group :development, :test do
   gem 'byebug', platform: :mri
   gem 'rspec-rails'
   gem 'guard-rspec', require: false
+  gem 'guard-livereload', require: false
   gem 'database_cleaner'
 end
 
