@@ -8,8 +8,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack --progress --colors --watch" 
- },
+    "start": "webpack --progress --colors --watch"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tsukalab/MovieTaggingTool.git"
@@ -21,9 +21,11 @@
   },
   "homepage": "https://github.com/tsukalab/MovieTaggingTool#readme",
   "dependencies": {
+    "d3": "^4.4.0",
     "flux": "^2.1.1",
     "jquery": "^3.1.1",
     "jquery-ujs": "^1.2.2",
+    "jsdom": "^9.8.3",
     "keymirror": "^0.1.1",
     "machina": "^2.0.0",
     "react": "^0.14.8",
@@ -47,5 +49,5 @@
     "react-jade-loader": "git://github.com/fabnavi/react-jade-loader.git#adb23dc",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
-}
+  }
 }
