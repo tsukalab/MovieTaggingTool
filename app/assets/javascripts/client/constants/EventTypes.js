@@ -7,5 +7,7 @@ module.exports = keyMirror({
 
   UPDATE_CANVAS_REQUEST : null,
   CLEAR_CANVAS_REQUEST : null,
+
+  CURRENT_TIME_CHANGE : null,
 });
 

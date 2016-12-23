@@ -45,4 +45,6 @@ module.exports = keyMirror({
 
   EDIT_CONTENT: null,
   EDIT_TITLE: null,
+
+  SELECT_PLAY_TIME: null,
 });
