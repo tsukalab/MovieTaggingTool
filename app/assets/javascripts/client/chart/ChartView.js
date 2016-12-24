@@ -108,10 +108,13 @@ svg.selectAll("circle")
 });
 
 function brushed(brush,x) {
-var s = d3.event.selection || x.range();
-console.log(s.map(x.invert, x));
-}
-
+  if(d3.event.selection != null){
+    if(d3.event.sourceEvent.type == "mouseup"){
+      var s = d3.event.selection || x.range();
+      ChartActionCreator.createTag(s.map(x.invert, x));
+     }
+   }
+ }
 }
 
 return {
