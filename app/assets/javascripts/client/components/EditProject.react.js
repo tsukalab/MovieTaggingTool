@@ -4,6 +4,9 @@ import editProject from '../templates/EditProject.jade';
 import{ Router, Route, DefaultRoute }from'react-router';
 import Frame from'./Frame.react.js';
 import Player from'./Player.react.js';
+import TagList from'./TagList.react.js';
+
+import TagStore from'../stores/TagStore';
 
 class EditProject extends React.Component{
 
@@ -19,7 +22,8 @@ class EditProject extends React.Component{
       this,
       this.state,
       this.props,
-      {Player: React.createFactory(Player)}      
+      {Player: React.createFactory(Player),
+       TagList: React.createFactory(TagList)}      
     ));
   }
 
