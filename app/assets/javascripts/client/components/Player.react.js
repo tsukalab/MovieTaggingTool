@@ -24,7 +24,7 @@ class Player extends React.Component{
 
   setCurrentTime(){
   if(React.findDOMNode(this.refs.video).currentTime != PlayerStore.getCurrentTime()){
-   React.findDOMNode(this.refs.video).currentTime = PlayerStore.getCurrentTime();
+     React.findDOMNode(this.refs.video).currentTime = PlayerStore.getCurrentTime();
   }
  }
 
@@ -33,6 +33,11 @@ class Player extends React.Component{
 }
 
   componentDidMount(){
+
+    React.findDOMNode(this.refs.video).addEventListener("timeupdate",function(v){
+    console.log(v.target.currentTime);    
+},false);
+
     ChartView.drawChart( React.findDOMNode(this.refs.chart));
     PlayerStore.addChangeListener(this._onChange);
 }
