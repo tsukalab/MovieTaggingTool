@@ -2,6 +2,7 @@ import React from'react';
 
 import tagList from'../templates/TagList.jade';
 
+import TagElement from'../components/TagElement.react';
 
 class TagList extends React.Component{
 
@@ -20,7 +21,7 @@ class TagList extends React.Component{
       this,
       this.state,
       this.props,
-      {}
+      {TagElement: React.createFactory(TagElement)}
     ));
   }
 

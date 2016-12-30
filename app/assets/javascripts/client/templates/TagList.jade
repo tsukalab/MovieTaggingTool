@@ -1,6 +1,8 @@
 #wrapper
   #container
     ul#list
-      li.item
-      li.item
-      li.item
+     - for (var i in state.tags)
+           TagElement(
+             tag=state.tags[i]
+           )
+ 
