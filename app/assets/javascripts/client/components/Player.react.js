@@ -2,6 +2,8 @@ import React from'react';
 
 import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 
+import ChartItem from'./ChartItem.react.js'
+
 import player from'../templates/Player.jade';
 import ChartView from'../chart/ChartView';
 import PlayerStore from '../stores/PlayerStore';
@@ -11,7 +13,11 @@ class Player extends React.Component{
   render(){
     return player(Object.assign(
       this,
-      this.state
+      this.state,
+      this.props,
+      {
+       ChartItem: React.createFactory(ChartItem)
+      }
     ));
   }
 
@@ -38,7 +44,7 @@ class Player extends React.Component{
     ChartView.changeCurrentTime(v.target.currentTime);    
 },false);
 
-    ChartView.drawChart( React.findDOMNode(this.refs.chart));
+    ChartView.init( React.findDOMNode(this.refs.chart));
     PlayerStore.addChangeListener(this._onChange);
 }
 

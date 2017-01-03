@@ -34,10 +34,12 @@ var xAxis = d3.axisBottom()
 var yAxis = d3.axisLeft()
   .scale(y)
 
+var svg_list = [];
+var line = [];
 var playTimeBar;
 var playLine;
 
-function drawChart( svgElement ){
+function init( svgElement ){
 
 d3.text("sample(6).csv", function(error, text) { 
     data = d3.csvParseRows(text, function(d) {
@@ -53,9 +55,40 @@ var svg = d3.select(svgElement)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-var line = d3.line()
+var i = 0;
+
+for(i = 0; i < 6; i++){
+   line[i] = d3.line()
   .x(function(d){ return x(d.date); })
-  .y(function(d){ return y(d.az); })
+  .y(function(d){ 
+ 
+     switch(i){
+       case 0: 
+         return y(d.ax);
+       break;
+    
+       case 1:
+         return y(d.ay);
+       break;
+
+       case 2:
+         return y(d.az);
+       break;
+  
+       case 3:
+         return y(d.gx);
+       break;
+
+       case 4:
+         return y(d.gy);
+       break;
+
+       case 5:
+         return y(d.gz);
+       break;
+     }
+ })
+}
 
 
    playLine = d3.line()
@@ -76,10 +109,13 @@ data.forEach(function(d){
 x.domain(d3.extent(data, function(d){ return d.date; }));
 y.domain(d3.extent(data, function(d){ return d.az; }));
 
- svg.append("path")
+
+for(i = 0; i < 6; i++){
+svg_list[i] = svg.append("path")
   .datum(data)
   .attr("class", "line")
-  .attr("d", line)
+  .attr("d", line[i])
+}
 
 playTimeBar = svg.append("path")
     .attr("d", playLine([[0,0], [0,height]])) 
@@ -99,19 +135,21 @@ svg.append("g") //brushグループを作成
         .selectAll(".brush rect")
         .attr("y", -6)
         .attr("height", height + 7);
-  
+ 
+
+for(i = 0; i < 6; i++){ 
 svg.selectAll("circle")
            .data(data)
            .enter()
            .append("circle")
            .attr("r", "3px")
-           .attr("cx", line.x() )
-           .attr("cy", line.y() )
+           .attr("cx", line[i].x() )
+           .attr("cy", line[i].y() )
            .attr("fill", "rgba(0,0,0,0)")
            .on("click", function(d){
               ChartActionCreator.selectPlayTime(data[0].date,d.date);
            })
-
+}
 });
 
 function brushed(brush,x) {
@@ -120,8 +158,8 @@ function brushed(brush,x) {
       var s = d3.event.selection || x.range();
       ChartActionCreator.createTag(s.map(x.invert, x));
     }
-   }
   }
+}
 }
 
 function changeCurrentTime(currentTime){
@@ -130,9 +168,44 @@ function changeCurrentTime(currentTime){
        .attr("d", playLine([[x,0], [x,height]]));
 }
 
+ function addItem(item){
+  console.log("add");
+}
+ 
+ function removeItem(item){
+
+  switch(item){
+    case "ax":
+      svg_list[0].transition().remove();
+    break;
+
+    case "ay":
+      svg_list[1].remove();
+    break;
+
+    case "az":
+      svg_list[2].remove();
+    break;
+
+    case "gx":
+      svg_list[3].remove();
+    break;
+
+    case "gy":
+      svg_list[4].remove();
+    break;
+
+    case "gz":
+      svg_list[5].remove();
+    break;
+  }
+}
+
 return {
-  drawChart : drawChart,
+  init : init,
   changeCurrentTime : changeCurrentTime,
+  addItem : addItem,
+  removeItem : removeItem,
 };
 }();
 
