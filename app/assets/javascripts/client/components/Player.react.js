@@ -35,7 +35,7 @@ class Player extends React.Component{
   componentDidMount(){
 
     React.findDOMNode(this.refs.video).addEventListener("timeupdate",function(v){
-    console.log(v.target.currentTime);    
+    ChartView.changeCurrentTime(v.target.currentTime);    
 },false);
 
     ChartView.drawChart( React.findDOMNode(this.refs.chart));

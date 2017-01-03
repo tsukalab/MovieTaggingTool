@@ -1,9 +1,6 @@
 import * as d3 from "d3";
 import ChartActionCreator from '../actions/ChartActionCreator';
-
 const ChartView = function(){
-
-function drawChart( svgElement ){
 
 // 表示サイズを設定
 var margin = {
@@ -19,10 +16,28 @@ var size = {
 };
 
 var width = size.width - margin.left - margin.right;
-var height = size.height - margin.top - margin.bottom; 
+var height = size.height - margin.top - margin.bottom;
 
 var data =[];
 var beginTime;
+
+var x = d3.scaleTime()
+  .range([0, width]);
+
+var y = d3.scaleLinear()
+  .range([height, 0]);
+
+var xAxis = d3.axisBottom()
+  .scale(x)
+  .tickFormat(d3.timeFormat("%M%S"));
+
+var yAxis = d3.axisLeft()
+  .scale(y)
+
+var playTimeBar;
+var playLine;
+
+function drawChart( svgElement ){
 
 d3.text("sample(6).csv", function(error, text) { 
     data = d3.csvParseRows(text, function(d) {
@@ -38,22 +53,14 @@ var svg = d3.select(svgElement)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-var x = d3.scaleTime()
-  .range([0, width]);
-
-var y = d3.scaleLinear()
-  .range([height, 0]);
-
-var xAxis = d3.axisBottom()
-  .scale(x)
-  .tickFormat(d3.timeFormat("%M%S"));
-
-var yAxis = d3.axisLeft()
-  .scale(y)
-
 var line = d3.line()
   .x(function(d){ return x(d.date); })
   .y(function(d){ return y(d.az); })
+
+
+   playLine = d3.line()
+    .x(function(d){ return d[0]; })
+    .y(function(d){ return d[1]; })
 
 // 描画
 data.forEach(function(d){
@@ -69,16 +76,16 @@ data.forEach(function(d){
 x.domain(d3.extent(data, function(d){ return d.date; }));
 y.domain(d3.extent(data, function(d){ return d.az; }));
 
-svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", "translate(0, " + ( height ) + ")")
-  .call(xAxis);
-
-
  svg.append("path")
   .datum(data)
   .attr("class", "line")
   .attr("d", line)
+
+playTimeBar = svg.append("path")
+    .attr("d", playLine([[0,0], [0,height]])) 
+    .attr("stroke", "red") 
+    .attr("stroke-width", "3px")
+    .attr("fill", "none") 
 
 var brush = d3.brushX()
     .extent([[0,0], [width,height]])
@@ -112,13 +119,20 @@ function brushed(brush,x) {
     if(d3.event.sourceEvent.type == "mouseup"){
       var s = d3.event.selection || x.range();
       ChartActionCreator.createTag(s.map(x.invert, x));
-     }
+    }
    }
- }
+  }
+}
+
+function changeCurrentTime(currentTime){
+  var x = currentTime * (width / 221);  
+  playTimeBar.transition()
+       .attr("d", playLine([[x,0], [x,height]]));
 }
 
 return {
   drawChart : drawChart,
+  changeCurrentTime : changeCurrentTime,
 };
 }();
 
