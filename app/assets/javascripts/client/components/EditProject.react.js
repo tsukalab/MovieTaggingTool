@@ -23,7 +23,7 @@ class EditProject extends React.Component{
       this.state,
       this.props,
       {Player: React.createFactory(Player),
-       TagList: React.createFactory(TagList)}      
+      }      
     ));
   }
 

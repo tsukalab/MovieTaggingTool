@@ -29,31 +29,49 @@ var y = d3.scaleLinear()
 
 var xAxis = d3.axisBottom()
   .scale(x)
-  .tickFormat(d3.timeFormat("%M%S"));
+  .tickFormat(d3.timeFormat("%H%M%S"));
 
 var yAxis = d3.axisLeft()
   .scale(y)
 
+var svg;
 var svg_list = [];
+var svg2 = [];
 var line = [];
 var playTimeBar;
 var playLine;
 
+var color_list = ["#f28c36", "#dc5462","#629ac9","#cfe43f","#f8ea2d","#8e37ca"]
+
 function init( svgElement ){
 
-d3.text("sample(6).csv", function(error, text) { 
+d3.text("201701120036.csv", function(error, text) { 
     data = d3.csvParseRows(text, function(d) {
         return { date: d[0], ax: +d[1], ay: +d[2], az: +d[3], gx: +d[4], gy: +d[5], gz: +d[6] };
     });
 
 var parseDate = d3.timeParse("%H%M%S%L");
 
+// zoomビヘイビアの設定
+var zoom = d3.zoom()
+  .scaleExtent([0.1, 10])
+  .on("zoom", function(){
+      
+  });
+
 // SVG、縦横軸などの設定
-var svg = d3.select(svgElement)
+svg = d3.select(svgElement)
   .attr("width", size.width)
   .attr("height", size.height)
   .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+  .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+  .call(zoom);
+
+var rect = svg.append("rect")
+  .attr("width", size.width)
+  .attr("height", size.height)
+  .style("fill", "none")
+  .style("pointer-events", "all");
 
 var i = 0;
 
@@ -106,21 +124,23 @@ data.forEach(function(d){
   d.gz = +d.gz;
 });
 
+
 x.domain(d3.extent(data, function(d){ return d.date; }));
-y.domain(d3.extent(data, function(d){ return d.az; }));
+y.domain([-5,5]);
 
 
 for(i = 0; i < 6; i++){
 svg_list[i] = svg.append("path")
   .datum(data)
   .attr("class", "line")
+  .attr("stroke", color_list[i])
   .attr("d", line[i])
 }
 
 playTimeBar = svg.append("path")
     .attr("d", playLine([[0,0], [0,height]])) 
-    .attr("stroke", "red") 
-    .attr("stroke-width", "3px")
+    .attr("stroke", "#A9A9A9") 
+    .attr("stroke-width", "2px")
     .attr("fill", "none") 
 
 var brush = d3.brushX()
@@ -162,43 +182,59 @@ function brushed(brush,x) {
 }
 }
 
+function drawTag(selection){
+
+
+
+
+}
+
 function changeCurrentTime(currentTime){
-  var x = currentTime * (width / 221);  
+  var x = currentTime * (width / 204);  
   playTimeBar.transition()
        .attr("d", playLine([[x,0], [x,height]]));
 }
 
  function addItem(item){
-  console.log("add");
 }
  
  function removeItem(item){
 
   switch(item){
     case "ax":
-      svg_list[0].transition().remove();
+      svg_list[0].remove();
+      svg_list[0] = null;
     break;
 
     case "ay":
       svg_list[1].remove();
+      svg_list[1] = null;
     break;
 
     case "az":
       svg_list[2].remove();
+      svg_list[2] = null;
     break;
 
     case "gx":
       svg_list[3].remove();
+      svg_list[3] = null;
     break;
 
     case "gy":
       svg_list[4].remove();
+      svg_list[4] = null;
     break;
 
     case "gz":
       svg_list[5].remove();
+      svg_list[5] = null;
     break;
   }
+}
+
+function colorGen(){ 
+    return '#'+Math.floor(Math.random()*16777215).toString(16); 
 }
 
 return {
