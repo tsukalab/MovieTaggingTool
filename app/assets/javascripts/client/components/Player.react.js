@@ -6,6 +6,7 @@ import ChartItem from'./ChartItem.react.js'
 
 import player from'../templates/Player.jade';
 import ChartView from'../chart/ChartView';
+import TagList from'../chart/TagList';
 import PlayerStore from '../stores/PlayerStore';
 
 class Player extends React.Component{
@@ -41,10 +42,12 @@ class Player extends React.Component{
   componentDidMount(){
 
     React.findDOMNode(this.refs.video).addEventListener("timeupdate",function(v){
-    ChartView.changeCurrentTime(v.target.currentTime);    
+    ChartView.changeCurrentTime(v.target.currentTime,v.target.duration);    
+
 },false);
 
     ChartView.init( React.findDOMNode(this.refs.chart));
+    TagList.init(React.findDOMNode(this.refs.tagList));
     PlayerStore.addChangeListener(this._onChange);
 }
 

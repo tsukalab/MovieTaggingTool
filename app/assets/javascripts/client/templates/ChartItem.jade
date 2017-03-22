@@ -17,3 +17,8 @@ div
  label
   input#gz(type='checkbox',onChange=this.chartItemsChange)
   font(color='#8e37ca') 角速度Z
+ tag_form 
+  | タグ名:
+  input(type='text', name='tag_name_txt',ref='tagNameTxt')
+ label
+  button(onClick=this.createTag) 作成

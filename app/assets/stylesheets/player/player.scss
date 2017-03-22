@@ -16,9 +16,15 @@ body {
 }
 .line {
   fill:none;
-  stroke:#7AB877;
   stroke-width:3px;
 }
 text {
-  font-size:10px;
+  font-size:12px;
 }
+label{
+  margin-left: 3px;
+}
+tag_form{
+  margin-left: 25px;
+}
+

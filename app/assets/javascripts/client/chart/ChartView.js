@@ -1,18 +1,19 @@
 import * as d3 from "d3";
 import ChartActionCreator from '../actions/ChartActionCreator';
+import TagList from './TagList';
 const ChartView = function(){
 
 // 表示サイズを設定
 var margin = {
-  top   : 40,
+  top   : 0,
   right : 40,
-  bottom: 40,
+  bottom: 20,
   left  : 40
 };
 
 var size = {
   width : 800,
-  height: 250
+  height: 225
 };
 
 var width = size.width - margin.left - margin.right;
@@ -33,7 +34,7 @@ var xAxis = d3.axisBottom()
 
 var yAxis = d3.axisLeft()
   .scale(y)
-
+  
 var svg;
 var svg_list = [];
 var svg2 = [];
@@ -43,9 +44,11 @@ var playLine;
 
 var color_list = ["#f28c36", "#dc5462","#629ac9","#cfe43f","#f8ea2d","#8e37ca"]
 
+var s;
+
 function init( svgElement ){
 
-d3.text("201701120036.csv", function(error, text) { 
+d3.text("sample.csv", function(error, text) { 
     data = d3.csvParseRows(text, function(d) {
         return { date: d[0], ax: +d[1], ay: +d[2], az: +d[3], gx: +d[4], gy: +d[5], gz: +d[6] };
     });
@@ -56,7 +59,6 @@ var parseDate = d3.timeParse("%H%M%S%L");
 var zoom = d3.zoom()
   .scaleExtent([0.1, 10])
   .on("zoom", function(){
-      
   });
 
 // SVG、縦横軸などの設定
@@ -124,10 +126,8 @@ data.forEach(function(d){
   d.gz = +d.gz;
 });
 
-
 x.domain(d3.extent(data, function(d){ return d.date; }));
 y.domain([-5,5]);
-
 
 for(i = 0; i < 6; i++){
 svg_list[i] = svg.append("path")
@@ -175,22 +175,22 @@ svg.selectAll("circle")
 function brushed(brush,x) {
   if(d3.event.selection != null){
     if(d3.event.sourceEvent.type == "mouseup"){
-      var s = d3.event.selection || x.range();
-      ChartActionCreator.createTag(s.map(x.invert, x));
-    }
-  }
+       s = d3.event.selection || x.range();
+       ChartActionCreator.createTag(s.map(x.invert, x));
+     }
+  }else {
+    s = null;
 }
 }
-
-function drawTag(selection){
-
-
-
-
 }
 
-function changeCurrentTime(currentTime){
-  var x = currentTime * (width / 204);  
+function getSelection(){
+return s;
+}
+
+function changeCurrentTime(currentTime,duringTime){
+  var x = currentTime * (width / duringTime);
+  console.log(currentTime);  
   playTimeBar.transition()
        .attr("d", playLine([[x,0], [x,height]]));
 }
@@ -233,15 +233,12 @@ function changeCurrentTime(currentTime){
   }
 }
 
-function colorGen(){ 
-    return '#'+Math.floor(Math.random()*16777215).toString(16); 
-}
-
 return {
   init : init,
   changeCurrentTime : changeCurrentTime,
   addItem : addItem,
   removeItem : removeItem,
+  getSelection : getSelection,
 };
 }();
 

@@ -1,13 +1,13 @@
 const
     ChartActionCreator = require('../actions/ChartActionCreator'),
     ChartView = require('../chart/ChartView'),
+    TagList = require('../chart/TagList'),
     React = require('react'),
     Router = require('react-router'),
     Link = Router.Link,
     Route = Router.Route;
 
 import chartItem from '../templates/ChartItem.jade';
-
 
 const ChartItem = React.createClass({
 
@@ -17,6 +17,13 @@ const ChartItem = React.createClass({
     }else {
       ChartView.removeItem(e.target.id);
     }
+},
+
+  createTag(){
+   if(ChartView.getSelection() != null){
+      TagList.appendTag(ChartView.getSelection(),this.refs.tagNameTxt.value)
+  }
+
 },
 
   render : chartItem,
