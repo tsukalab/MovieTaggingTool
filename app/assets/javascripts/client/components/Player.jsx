@@ -2,9 +2,8 @@ import React from'react';
 
 import{ Route, RouteHandler, Link, DefaultRoute }from'react-router';
 
-import ChartItem from'./ChartItem.react.js'
+import ChartItem from'./ChartItem'
 
-import player from'../templates/Player.jade';
 import ChartView from'../chart/ChartView';
 import TagList from'../chart/TagList';
 import PlayerStore from '../stores/PlayerStore';
@@ -12,14 +11,16 @@ import PlayerStore from '../stores/PlayerStore';
 class Player extends React.Component{
 
   render(){
-    return player(Object.assign(
-      this,
-      this.state,
-      this.props,
-      {
-       ChartItem: React.createFactory(ChartItem)
-      }
-    ));
+    return (
+     <div>
+         <video width="800" height="480" ref="video" controls="controls">
+           <source src="https://crest-multimedia-web.s3.amazonaws.com/uploads/attachment/movie/file/2135/2017-01-25_20_22_02.mp4"/>
+         </video>
+         <svg id="tagList" ref="tagList"></svg>
+         <svg id="chart" ref="chart"></svg>
+       <ChartItem />
+     </div>
+    );
   }
 
   constructor(props){
@@ -41,13 +42,13 @@ class Player extends React.Component{
 
   componentDidMount(){
 
-    React.findDOMNode(this.refs.video).addEventListener("timeupdate",function(v){
+    this.refs.video.addEventListener("timeupdate",function(v){
     ChartView.changeCurrentTime(v.target.currentTime,v.target.duration);    
 
 },false);
 
-    ChartView.init( React.findDOMNode(this.refs.chart));
-    TagList.init(React.findDOMNode(this.refs.tagList));
+    ChartView.init(this.refs.chart);
+    TagList.init(this.refs.tagList);
     PlayerStore.addChangeListener(this._onChange);
 }
 

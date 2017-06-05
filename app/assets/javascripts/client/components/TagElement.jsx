@@ -1,11 +1,14 @@
 import React from'react';
 
-import tagElement from'../templates/TagElement.jade';
-
-
 const TagElement = React.createClass({
 
-  render : tagElement,
+  render (){
+    return (
+       <li class="item">
+         <p></p>
+       </li>
+    )
+  },
 
   componentWillMount : function(){
   },

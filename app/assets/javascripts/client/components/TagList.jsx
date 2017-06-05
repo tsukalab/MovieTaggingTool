@@ -1,8 +1,6 @@
 import React from'react';
 
-import tagList from'../templates/TagList.jade';
-
-import TagElement from'../components/TagElement.react';
+import TagElement from'../components/TagElement';
 
 class TagList extends React.Component{
 
@@ -17,12 +15,23 @@ class TagList extends React.Component{
   }
 
   render(){
-    return tagList(Object.assign(
-      this,
-      this.state,
-      this.props,
-      {TagElement: React.createFactory(TagElement)}
-    ));
+    var list = [];
+    for(var i in state.tags){
+      list.push(<TagElement 
+                   tag={state.tags[i]} />
+      )
+    }
+   
+    return (
+      <div id="wrapper">
+        <div id="container">
+          <ul id="list">
+            {list}
+          </ul>            
+        </div>
+     </div>
+      
+    );
   }
 
   componentWillMount(){

@@ -28,7 +28,8 @@
     "jsdom": "^9.8.3",
     "keymirror": "^0.1.1",
     "machina": "^2.0.0",
-    "react": "^0.14.8",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
     "react-router": "^3.0.0"
   },
   "devDependencies": {
@@ -45,8 +46,6 @@
     "eslint": "^3.11.1",
     "json-loader": "^0.5.4",
     "node-sass": "^3.13.0",
-    "react-jade": "^2.5.0",
-    "react-jade-loader": "git://github.com/fabnavi/react-jade-loader.git#adb23dc",
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   }

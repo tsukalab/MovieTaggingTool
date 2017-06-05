@@ -1,10 +1,8 @@
 import React from 'react';
 
-import editProject from '../templates/EditProject.jade';
 import{ Router, Route, DefaultRoute }from'react-router';
-import Frame from'./Frame.react.js';
-import Player from'./Player.react.js';
-import TagList from'./TagList.react.js';
+import Player from'./Player';
+import TagList from'./TagList';
 
 import TagStore from'../stores/TagStore';
 
@@ -18,13 +16,11 @@ class EditProject extends React.Component{
 
 
   render() {
-    return editProject(Object.assign(
-      this,
-      this.state,
-      this.props,
-      {Player: React.createFactory(Player),
-      }      
-    ));
+    return (
+      <div className="editproject">
+        <Player />
+      </div>
+    );
   }
 
   componentDidMount(){
