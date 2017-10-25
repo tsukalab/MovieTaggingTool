@@ -1,0 +1,30 @@
+body {
+  max-width:50em;
+  margin-right:auto;
+  margin-left:auto;
+  padding:1em;
+  font-family:sans-serif;
+}
+.axis path,
+.axis line {
+  fill:none;
+  stroke:#000;
+  shape-rendering:crispEdges;
+}
+.x.axis path {
+  display:none;
+}
+.line {
+  fill:none;
+  stroke-width:3px;
+}
+text {
+  font-size:12px;
+}
+label{
+  margin-left: 3px;
+}
+tag_form{
+  margin-left: 25px;
+}
+

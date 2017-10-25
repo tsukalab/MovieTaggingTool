@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {render} from 'react-dom';
 
-import Navigation from './Navigation.react';
-import Frame from './Frame.react.js';
-import ProjectManager from './ProjectManager.react';
+import Navigation from './Navigation';
+import Frame from './Frame';
+import ProjectManager from './ProjectManager';
+import EditProject from './EditProject';
+
 import WebAPIUtils from '../utils/WebAPIUtils';
 import ServerActionCreator from '../actions/ServerActionCreator';
 import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router';
@@ -20,11 +22,12 @@ const routes = (
 	<Redirect from="/" to="manager" />
 	<Route components={ProjectManager} path="manager" >
 	</Route>
+        <Route components={EditProject} path="edit">
+        </Route>
 	</Route>
 	</Router>
 	);
 
-	//ProjectStoreのinitと, 上で定義されたroutesを基に, Reactをdocument.body以下に展開する
 	global.onload = function ( ){
 		render(routes, document.querySelector("#mount-point"));
 		if(WebAPIUtils.isSigningIn()){

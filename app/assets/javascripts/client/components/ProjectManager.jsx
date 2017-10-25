@@ -1,10 +1,9 @@
 import React from'react';
 
-import Navigation from'./Navigation.react';
-import Frame from'./Frame.react.js';
+import Navigation from'./Navigation';
+import Frame from'./Frame';
 
 import{ Router, Route, DefaultRoute }from'react-router';
-import projectManager from'../templates/ProjectManager.jade';
 
 class ProjectManager extends React.Component{
 
@@ -15,12 +14,11 @@ class ProjectManager extends React.Component{
   }
 
   render(){
-    return projectManager(Object.assign(
-         this,
-         this.state,
-         this.props,
-         { Navigation: React.createFactory(Navigation) }
-)); 
+    return (
+      <div className="body">
+         <Navigation />
+      </div>
+    ); 
  }
   componentDidMount(){
   }

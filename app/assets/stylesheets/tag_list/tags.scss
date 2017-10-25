@@ -1,0 +1,30 @@
+#wrapper {
+    width: 840px;
+    height: 200px;
+    position: relative;
+}
+
+#container {
+    width: 800px;
+    height: 150px;
+    position: absolute;
+    top: 60px;
+    left: 30px;
+    overflow: scroll;
+    border: 1px solid #888;
+}
+
+#list {
+    white-space: nowrap;
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.item {
+    width: 100px;
+    display: inline-block;
+    height: 100px;
+    margin-right: 50px;
+    background-color: red;   
+}
+

@@ -1,5 +1,4 @@
 var webpack = require("webpack");
-var BowerWebpackPlugin = require('bower-webpack-plugin');
 
 module.exports = {
 
@@ -12,19 +11,16 @@ module.exports = {
   },
   module: {
     loaders: [{
-      test: /\.js$/,
-      loader: "babel",
-      exclude: /(node_modules|bower_components)/,
+      test: /\.jsx?$/,
+      loader: "babel-loader",
+      exclude: /node_modules/,
       query: {
         cacheDirectory: true,
-        presets: ["es2015", "react"]
+        presets: ["react", "es2015"]
       }
     },{ 
      test: /\.css$/, 
      loader: "style-loader!css-loader" 
-    },{ 
-      test: /\.jade$/, 
-      loader: "react-jade-loader?split=true" 
     },{
       test: /\.json$/,
       loader: "json-loader" 
@@ -32,17 +28,9 @@ module.exports = {
   },
 
   resolve: {
-    root:[ __dirname + "/bower_components"],
-    alias: {
-      "react": __dirname + "/node_modules/react/react.js",
-      "react-dom": __dirname + "/node_modules/react/lib/ReactDOM.js"
-    }
-  },
-
-  plugins: [
-    new BowerWebpackPlugin()
-  ],
-
+    extensions: ["", ".js", ".jsx"],
+    root:[__dirname + "/node_modules"],
+   },
   node: {
     fs: "empty"
   }
